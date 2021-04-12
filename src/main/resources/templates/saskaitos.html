@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Klientai</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	
+	<style>
+		label, input { display:block; }
+	    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+	    fieldset { padding:0; border:0; margin-top:25px; }
+	    h1 { font-size: 1.2em; margin: .6em 0; }
+	    div#users-contain { width: 350px; margin: 20px 0; }
+	    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+	    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+	    .ui-dialog .ui-state-error { padding: .3em; }
+	    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+	</style>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<script>
+  		function addSaskaita() {
+  		
+  			// alert( "Pridėti?" );
+  			$( '#saskaitos-forma' ).submit();
+  			
+  		}
+  		
+  		/*
+  		  		function addApmokejimas() {
+  		
+  			alert( "Pridėti?" );
+  			$( '#apmokejimo-forma' ).submit();
+  			
+  		}  	
+  		*/
+  	
+  		$( document ).ready ( function() {
+  		
+		    dialog = $( "#dialog-form" ).dialog({
+		      autoOpen: false,
+		      height: 400,
+		      width: 350,
+		      modal: true,
+		      buttons: {
+		        "Saugoti": addSaskaita,
+		        Cancel: function() {
+		          dialog.dialog( "close" );
+		        }
+		      },
+		      close: function() {
+		      }
+		    }); 
+		    
+/*
+		     	dialog =  $( "#dialog-confirm" ).dialog({
+		     		resizable: false,
+		     		height: "auto",
+		     		width: 400,
+		     		modal: true,
+		     		buttons: {
+		     			"Delete all items": function() {
+		     				 $( this ).dialog("close");
+		     				}
+		     			}
+		     		});
+		     	} ); 
+*/		    
+		    $( "#new_saskaita" ).button().on ( "click", function() {
+		    
+		      alert ( 'atidarom dialogo langą' );
+		      
+		      dialog.dialog( "open" );
+		    });
+
+		    /*
+		     $( ".delete" ).each ( function() ) {
+		     
+		      $( this ).click ( function() {
+		      
+		      	saskaitos_id =  $( this ).data ( 'delete_id');
+		      	
+		      	 $.ajax({
+		      	 	method: 'Get'
+		      	 		, url: '/saskaitos'
+		      	 		, data: {
+		      	 			id id??
+		      	 	}
+		      	 }).done( function( data ) {
+		      	 	if ( data != null ) {
+		      	 	 $( '#id' ).val ( data.id );
+		      	 	 dialog.dialog(open);
+		      	 	 location.reload();
+		      	 	}
+		      	 	console.log ( JSON.stringify ( data ) );
+		      	 });
+		      	
+		      });
+		    
+		  });
+		  */
+ }); 
+ 
+  	</script>	
+</head>
+<body>
+	<h3>Klientai</h3>
+	
+	<table>
+		<tr th:each="saskaita : ${saskaitos}">
+			<td th:text="${saskaita.getData()}"></td>
+			<td th:text="${saskaita.getSuma()}"></td>
+			<td><input type="button" class="delete" th:attr="data-el_id=${saskaita.getId()}" value="&#10006"></td>				
+		</tr>
+	</table>
+	
+	<input type="button" id="new_saskaita" value="Naujas klientas">
+	<div id="dialog-form" title="Klientas">
+  		<p class="validateTips">All form fields are required.</p>	
+		<form id="saskaitos-forma" method="POST" action="">
+			<fieldset>
+				<label for="data">Data</label>
+				<input name="data" id="data" type="text">
+				<label for="suma">Suma</label>
+				<input name="suma" id="suma" value="">
+				<input type="hidden" name="saugoti" class="frm_button" value="saugoti">	
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">	
+			</fieldset>
+		</form>
+	</div>	
+</body>
+</html>
