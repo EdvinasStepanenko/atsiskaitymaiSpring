@@ -58,6 +58,7 @@ public class KlientaiController {
 			return "redirect:/saskaitos?kid=" + klientas.getId();		    
 		    
 		}
+        model.addAttribute("lst_menu", Meniu.values() ); 
     	model.addAttribute("klientai", klientai_repository.findAll() );
     	model.addAttribute("res", res );
     	
